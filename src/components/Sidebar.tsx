@@ -1,11 +1,22 @@
 import { Home, User, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export const Sidebar = () => {
+interface SidebarProps {
+  currentPage?: string;
+}
+
+export const Sidebar = ({ currentPage }: SidebarProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Determine active page from route if not explicitly passed
+  const activePage = currentPage || (location.pathname === '/profile' ? 'profile' : 'home');
+
   const navItems = [
-    { icon: Home, label: 'Home', active: true },
-    { icon: User, label: 'Profile', active: false },
-    { icon: Settings, label: 'Settings', active: false },
+    { icon: Home, label: 'Home', id: 'home', path: '/' },
+    { icon: User, label: 'Profile', id: 'profile', path: '/profile' },
+    { icon: Settings, label: 'Settings', id: 'settings', path: '/settings' },
   ];
 
   return (
@@ -20,14 +31,15 @@ export const Sidebar = () => {
 
         {/* Navigation */}
         <nav className="space-y-2 flex-1">
-          {navItems.map(({ icon: Icon, label, active }) => (
+          {navItems.map(({ icon: Icon, label, id, path }) => (
             <Button
               key={label}
               variant="ghost"
               size="lg"
+              onClick={() => navigate(path)}
               className={`
                 w-full justify-start gap-4 text-left font-normal px-3 py-3 h-auto
-                ${active 
+                ${activePage === id
                   ? 'bg-nav-hover text-foreground font-medium' 
                   : 'text-muted-foreground hover:bg-nav-hover hover:text-foreground'
                 }
