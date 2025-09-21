@@ -1,5 +1,6 @@
 import { Heart, MessageCircle, Repeat2, Share, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface PostProps {
   post: {
@@ -19,8 +20,21 @@ interface PostProps {
 }
 
 export const Post = ({ post }: PostProps) => {
+  const navigate = useNavigate();
+
+  const handlePostClick = (e: React.MouseEvent) => {
+    // Don't navigate if clicking on buttons or other interactive elements
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    navigate(`/post/${post.id}`);
+  };
+
   return (
-    <article className="border-b border-border p-4 hover:bg-hover/50 transition-colors cursor-pointer">
+    <article 
+      className="border-b border-border p-4 hover:bg-hover/50 transition-colors cursor-pointer"
+      onClick={handlePostClick}
+    >
       <div className="flex gap-3">
         {/* Avatar */}
         <img
