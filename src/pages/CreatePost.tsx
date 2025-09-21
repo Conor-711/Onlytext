@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { MultiSelect } from '@/components/ui/multi-select';
 import { ArrowLeft, X, Image as ImageIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -12,8 +13,33 @@ const CreatePost = () => {
   const { toast } = useToast();
   const [story, setStory] = useState('');
   const [relationship, setRelationship] = useState('');
+  const [feelings, setFeelings] = useState<string[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
+  const relationshipOptions = [
+    { label: 'Friends', value: 'friends' },
+    { label: 'Family', value: 'family' },
+    { label: 'Romantic Partner', value: 'romantic' },
+    { label: 'Spouse', value: 'spouse' },
+    { label: 'Colleague', value: 'colleague' },
+    { label: 'Classmate', value: 'classmate' },
+    { label: 'Neighbor', value: 'neighbor' },
+    { label: 'Other', value: 'other' }
+  ];
+
+  const feelingOptions = [
+    { label: 'Happy', value: 'happy' },
+    { label: 'Sad', value: 'sad' },
+    { label: 'Angry', value: 'angry' },
+    { label: 'Excited', value: 'excited' },
+    { label: 'Confused', value: 'confused' },
+    { label: 'Grateful', value: 'grateful' },
+    { label: 'Frustrated', value: 'frustrated' },
+    { label: 'Surprised', value: 'surprised' },
+    { label: 'Insightful', value: 'insightful' },
+    { label: 'Nostalgic', value: 'nostalgic' }
+  ];
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -112,14 +138,33 @@ const CreatePost = () => {
 
           {/* Relationship Field */}
           <div className="space-y-2">
-            <Label htmlFor="relationship" className="text-sm font-medium">
+            <Label className="text-sm font-medium">
               Relationship
             </Label>
-            <Input
-              id="relationship"
-              placeholder="e.g., Friend, Family, Colleague, Crush..."
-              value={relationship}
-              onChange={(e) => setRelationship(e.target.value)}
+            <Select value={relationship} onValueChange={setRelationship}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select relationship type..." />
+              </SelectTrigger>
+              <SelectContent>
+                {relationshipOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Feelings Field */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">
+              Feelings
+            </Label>
+            <MultiSelect
+              options={feelingOptions}
+              selected={feelings}
+              onChange={setFeelings}
+              placeholder="Select feelings..."
             />
           </div>
 

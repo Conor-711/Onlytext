@@ -13,6 +13,7 @@ interface PostProps {
     };
     content: string;
     relationship?: string;
+    feelings?: string[];
     timestamp: string;
     likes: number;
     retweets: number;
@@ -67,12 +68,19 @@ export const Post = ({ post }: PostProps) => {
           {/* Post content */}
           <p className="text-foreground mb-3 leading-relaxed">{post.content}</p>
           
-          {/* Relationship badge */}
-          {post.relationship && (
-            <div className="mb-3">
-              <span className="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-medium">
-                {post.relationship}
-              </span>
+          {/* Relationship and Feelings badges */}
+          {(post.relationship || (post.feelings && post.feelings.length > 0)) && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {post.relationship && (
+                <span className="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-medium">
+                  {post.relationship}
+                </span>
+              )}
+              {post.feelings && post.feelings.map((feeling) => (
+                <span key={feeling} className="inline-block bg-secondary text-secondary-foreground px-2 py-1 rounded-full text-xs font-medium">
+                  {feeling}
+                </span>
+              ))}
             </div>
           )}
           
