@@ -1,7 +1,7 @@
 import { ArrowLeft, MoreHorizontal, Calendar, Link as LinkIcon, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ProfileTabs } from './ProfileTabs';
-import { Post } from './Post';
+import { PinterestCard } from './PinterestCard';
 import { EditPostDialog } from './EditPostDialog';
 import { useState } from 'react';
 
@@ -15,11 +15,13 @@ const mockProfilePosts = [
       verified: true,
     },
     content: 'I stopped looking at notifications, post analytics, haven\'t replied to low effort slop comments & messages and it is truly freeing for my brain',
-    relationship: 'Personal',
+    relationship: 'personal',
+    feelings: ['peaceful', 'grateful'],
     timestamp: '39m',
     likes: 20,
     retweets: 1,
     replies: 4,
+    images: ['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop'],
   },
   {
     id: '2',
@@ -30,11 +32,81 @@ const mockProfilePosts = [
       verified: true,
     },
     content: 'Weather app concept with clean interface and smooth animations. What do you think?',
-    relationship: 'Work',
+    relationship: 'colleague',
+    feelings: ['excited', 'proud'],
     timestamp: '3h',
     likes: 694,
     retweets: 34,
     replies: 16,
+    images: ['https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop'],
+  },
+  {
+    id: '3',
+    author: {
+      name: 'amrit',
+      username: 'amritwt',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      verified: true,
+    },
+    content: 'Morning coffee routine and planning my creative projects for the week.',
+    relationship: 'personal',
+    feelings: ['motivated', 'peaceful'],
+    timestamp: '1d',
+    likes: 156,
+    retweets: 23,
+    replies: 12,
+    images: ['https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop'],
+  },
+  {
+    id: '4',
+    author: {
+      name: 'amrit',
+      username: 'amritwt',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      verified: true,
+    },
+    content: 'New design system components completed. Clean, minimal, and accessible.',
+    relationship: 'colleague',
+    feelings: ['satisfied', 'accomplished'],
+    timestamp: '2d',
+    likes: 389,
+    retweets: 67,
+    replies: 28,
+    images: ['https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=350&fit=crop'],
+  },
+  {
+    id: '5',
+    author: {
+      name: 'amrit',
+      username: 'amritwt',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      verified: true,
+    },
+    content: 'Weekend hiking adventure. Nature always provides the best inspiration for design.',
+    relationship: 'friends',
+    feelings: ['amazed', 'refreshed'],
+    timestamp: '3d',
+    likes: 245,
+    retweets: 45,
+    replies: 19,
+    images: ['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=550&fit=crop'],
+  },
+  {
+    id: '6',
+    author: {
+      name: 'amrit',
+      username: 'amritwt',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      verified: true,
+    },
+    content: 'Late night coding session with some good music. There\'s something magical about building things when the world is quiet.',
+    relationship: 'personal',
+    feelings: ['focused', 'content'],
+    timestamp: '4d',
+    likes: 178,
+    retweets: 31,
+    replies: 15,
+    images: ['https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=450&fit=crop'],
   },
 ];
 
@@ -156,16 +228,18 @@ export const ProfileMain = () => {
       <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Posts */}
-      <div>
-        {mockProfilePosts.map((post) => (
-          <div key={post.id} className="relative group">
-            <Post post={post} />
-            {/* Edit button for own posts */}
-            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-              <EditPostDialog post={{ id: post.id, content: post.content, relationship: post.relationship }} />
+      <div className="p-4">
+        <div className="columns-2 sm:columns-3 lg:columns-4 gap-4 space-y-4">
+          {mockProfilePosts.map((post) => (
+            <div key={post.id} className="break-inside-avoid relative group">
+              <PinterestCard post={post} />
+              {/* Edit button for own posts */}
+              <div className="absolute top-2 right-10 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                <EditPostDialog post={{ id: post.id, content: post.content, relationship: post.relationship, feelings: post.feelings }} />
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
