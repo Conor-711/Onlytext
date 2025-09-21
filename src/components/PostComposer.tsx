@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Image, Smile, Calendar, MapPin } from 'lucide-react';
 
 export const PostComposer = () => {
+  const navigate = useNavigate();
   const [content, setContent] = useState('');
 
   return (
@@ -40,7 +42,7 @@ export const PostComposer = () => {
             
             <Button 
               className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold px-6 rounded-full"
-              disabled={!content.trim()}
+              onClick={() => navigate('/create-post')}
             >
               Post
             </Button>

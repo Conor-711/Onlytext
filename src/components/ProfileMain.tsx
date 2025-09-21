@@ -2,6 +2,7 @@ import { ArrowLeft, MoreHorizontal, Calendar, Link as LinkIcon, MapPin } from 'l
 import { Button } from '@/components/ui/button';
 import { ProfileTabs } from './ProfileTabs';
 import { Post } from './Post';
+import { EditPostDialog } from './EditPostDialog';
 import { useState } from 'react';
 
 const mockProfilePosts = [
@@ -14,6 +15,7 @@ const mockProfilePosts = [
       verified: true,
     },
     content: 'I stopped looking at notifications, post analytics, haven\'t replied to low effort slop comments & messages and it is truly freeing for my brain',
+    relationship: 'Personal',
     timestamp: '39m',
     likes: 20,
     retweets: 1,
@@ -28,6 +30,7 @@ const mockProfilePosts = [
       verified: true,
     },
     content: 'Weather app concept with clean interface and smooth animations. What do you think?',
+    relationship: 'Work',
     timestamp: '3h',
     likes: 694,
     retweets: 34,
@@ -155,7 +158,13 @@ export const ProfileMain = () => {
       {/* Posts */}
       <div>
         {mockProfilePosts.map((post) => (
-          <Post key={post.id} post={post} />
+          <div key={post.id} className="relative group">
+            <Post post={post} />
+            {/* Edit button for own posts */}
+            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <EditPostDialog post={{ id: post.id, content: post.content, relationship: post.relationship }} />
+            </div>
+          </div>
         ))}
       </div>
     </div>

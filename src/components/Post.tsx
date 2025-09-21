@@ -12,6 +12,7 @@ interface PostProps {
       verified: boolean;
     };
     content: string;
+    relationship?: string;
     timestamp: string;
     likes: number;
     retweets: number;
@@ -65,6 +66,15 @@ export const Post = ({ post }: PostProps) => {
           
           {/* Post content */}
           <p className="text-foreground mb-3 leading-relaxed">{post.content}</p>
+          
+          {/* Relationship badge */}
+          {post.relationship && (
+            <div className="mb-3">
+              <span className="inline-block bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-medium">
+                {post.relationship}
+              </span>
+            </div>
+          )}
           
           {/* Actions */}
           <div className="flex items-center gap-12 max-w-md">
