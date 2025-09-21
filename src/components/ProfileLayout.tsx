@@ -1,11 +1,13 @@
-import { Sidebar } from './Sidebar';
+import { PinterestHeader } from './PinterestHeader';
+import { PinterestSidebar } from './PinterestSidebar';
 import { ProfileMain } from './ProfileMain';
 
 export const ProfileLayout = () => {
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto flex">
-        <Sidebar currentPage="profile" />
+      <PinterestHeader />
+      <div className="flex">
+        <PinterestSidebar currentPage="profile" />
         <ProfileMain />
       </div>
     </div>
