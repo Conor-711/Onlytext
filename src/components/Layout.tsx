@@ -1,4 +1,5 @@
-import { Sidebar } from './Sidebar';
+import { PinterestHeader } from './PinterestHeader';
+import { PinterestSidebar } from './PinterestSidebar';
 import { MainFeed } from './MainFeed';
 
 interface LayoutProps {
@@ -8,8 +9,9 @@ interface LayoutProps {
 export const Layout = ({ currentPage }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto flex">
-        <Sidebar currentPage={currentPage} />
+      <PinterestHeader />
+      <div className="flex">
+        <PinterestSidebar currentPage={currentPage} />
         <MainFeed />
       </div>
     </div>
