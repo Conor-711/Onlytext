@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Heart, MessageCircle, Repeat2, Share, Bookmark, Lock } from 'lucide-react';
+import { ArrowLeft, Heart, Share, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sidebar } from '@/components/Sidebar';
+import { PinterestHeader } from '@/components/PinterestHeader';
+import { PinterestSidebar } from '@/components/PinterestSidebar';
 import { Filmstrip } from '@/components/Filmstrip';
-import { CommentSection } from '@/components/CommentSection';
 import { useState } from 'react';
 
 // Mock data for the post detail
@@ -72,11 +72,12 @@ const PostDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto flex">
-        <Sidebar currentPage="home" />
+      <PinterestHeader />
+      <div className="flex">
+        <PinterestSidebar />
         
         {/* Main Content */}
-        <div className="flex-1 border-r border-border max-w-2xl">
+        <div className="flex-1 max-w-2xl mx-auto">
           {/* Header */}
           <div className="sticky top-0 bg-background/80 backdrop-blur-md border-b border-border p-4 flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={handleBack} className="p-2">
@@ -133,26 +134,8 @@ const PostDetail = () => {
               <span>{mockPostDetail.views} Views</span>
             </div>
 
-            {/* Global Actions */}
+            {/* Pinterest-style Actions */}
             <div className="flex items-center justify-between py-4 border-t border-border mt-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="flex items-center gap-2 text-muted-foreground hover:text-primary"
-              >
-                <MessageCircle className="w-5 h-5" />
-                <span>{mockPostDetail.replies}</span>
-              </Button>
-              
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="flex items-center gap-2 text-muted-foreground hover:text-green-600"
-              >
-                <Repeat2 className="w-5 h-5" />
-                <span>{mockPostDetail.retweets}</span>
-              </Button>
-              
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -164,33 +147,29 @@ const PostDetail = () => {
               </Button>
               
               <Button 
-                variant="ghost" 
+                variant="default" 
                 size="sm" 
-                className={`flex items-center gap-2 ${isBookmarked ? 'text-primary' : 'text-muted-foreground hover:text-primary'}`}
+                className={`${isBookmarked ? 'bg-primary' : 'bg-primary hover:bg-primary/90'}`}
                 onClick={() => setIsBookmarked(!isBookmarked)}
               >
-                <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
-                <span>{mockPostDetail.bookmarks + (isBookmarked ? 1 : 0)}</span>
+                {isBookmarked ? 'Saved' : 'Save'}
               </Button>
 
               <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
                 <Share className="w-5 h-5" />
               </Button>
-
-              {mockPostDetail.hasLockedContent && (
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-                  <Lock className="w-5 h-5" />
-                </Button>
-              )}
             </div>
           </div>
 
-          {/* Comment Section */}
-          <CommentSection postId={postId || '1'} />
+          {/* Comments placeholder */}
+          <div className="p-4 border-t border-border">
+            <h3 className="text-lg font-semibold mb-4">Comments</h3>
+            <p className="text-muted-foreground">Comments feature coming soon...</p>
+          </div>
         </div>
 
         {/* Right Sidebar */}
-        <div className="w-80 p-4 space-y-6">
+        <div className="w-80 p-6 space-y-6">
           {/* Author More Content */}
           <div className="bg-card rounded-2xl p-4 border border-border">
             <h3 className="text-lg font-bold mb-4">More from {mockPostDetail.author.name}</h3>
